@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+
+minimumReleaseAge: 10080
+
+trustPolicy: no-downgrade

@@ -1,0 +1,13 @@
+{
+  "name": "component-vista",
+  "version": "0.1.0",
+  "description": "Provides a bird's-eye view of component libraries across various Japanese corporate design systems.",
+  "scripts": {},
+  "keywords": [],
+  "author": "koralle <koralle@koralle-mgmg.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.25.0",
+  "dependencies": {
+    "pnpm": "^10.25.0"
+  }
+}
