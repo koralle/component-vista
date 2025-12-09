@@ -18,6 +18,7 @@
       "package.json",
       "tsconfig.json",
       "biome.jsonc",
+      "wrangler.jsonc",
       ".vscode/settings.json",
 
       // CSS

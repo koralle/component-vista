@@ -2,12 +2,36 @@
   "name": "component-vista-admin",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "binding": "ASSETS",
     "directory": ".open-next/assets"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "component-vista-dev",
+      "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61"
+    }
+  ],
+  "env": {
+    "dev": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "component-vista-dev",
+          "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61"
+        }
+      ]
+    },
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "component-vista-production",
+          "database_id": "80d73618-785d-4f76-aaca-116a0ad9d84e"
+        }
+      ]
+    }
   }
 }
