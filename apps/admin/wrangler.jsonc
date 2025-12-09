@@ -11,7 +11,8 @@
     {
       "binding": "DB",
       "database_name": "component-vista-dev",
-      "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61"
+      "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61",
+      "migrations_dir": "drizzle/migrations"
     }
   ],
   "env": {
@@ -20,7 +21,8 @@
         {
           "binding": "DB",
           "database_name": "component-vista-dev",
-          "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61"
+          "database_id": "5ee7b899-22f3-4f3f-8563-60ea3c890b61",
+          "migrations_dir": "drizzle/migrations"
         }
       ]
     },
@@ -29,7 +31,8 @@
         {
           "binding": "DB",
           "database_name": "component-vista-production",
-          "database_id": "80d73618-785d-4f76-aaca-116a0ad9d84e"
+          "database_id": "80d73618-785d-4f76-aaca-116a0ad9d84e",
+          "migrations_dir": "drizzle/migrations"
         }
       ]
     }
