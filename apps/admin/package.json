@@ -19,7 +19,8 @@
     "@opennextjs/cloudflare": "1.14.4",
     "next": "15.5.7",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "valibot": "^1.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
