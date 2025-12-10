@@ -1,15 +1,17 @@
 {
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "module": "preserve",
-    "target": "es2024",
-    "allowJs": true,
-    "noImplicitAny": true,
+    "target": "es2022",
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["./worker-configuration.d.ts", "node", "vite/client"],
+
+    /* Bundler mode */
     "moduleResolution": "bundler",
-    "importHelpers": true,
-    "strictNullChecks": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
 
     "strict": true,
     "allowUnusedLabels": false,
@@ -22,30 +24,10 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-
     "isolatedModules": true,
-
     "esModuleInterop": true,
     "skipLibCheck": true,
-
-    "noEmit": true,
-
-    "incremental": true,
-
-    "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "types": ["./cloudflare-env.d.ts", "node"]
-  },
-  "include": [
-    "src/**/*.{ts,tsx}",
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "cloudflare-env.d.ts",
-    "open-next.config.ts"
-  ],
-  "exclude": ["node_modules"]
+    "importHelpers": true,
+    "strictNullChecks": true
+  }
 }
