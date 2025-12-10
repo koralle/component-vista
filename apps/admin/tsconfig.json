@@ -42,10 +42,12 @@
   },
   "include": [
     "src/**/*.{ts,tsx}",
+    "drizzle/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "cloudflare-env.d.ts",
-    "open-next.config.ts"
+    "open-next.config.ts",
+    "drizzle.config.ts"
   ],
   "exclude": ["node_modules"]
 }

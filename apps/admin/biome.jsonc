@@ -10,7 +10,9 @@
     "includes": [
       // TypeScript
       "src/**/*.{ts,tsx}",
+      "drizzle/**/*.ts",
       "cloudflare-env.d.ts",
+      "drizzle.config.ts",
       "next.config.ts",
       "next-env.d.ts",
       "open-next.config.ts",
