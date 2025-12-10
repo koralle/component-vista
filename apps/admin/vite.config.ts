@@ -14,7 +14,12 @@ const config = defineConfig((configEnv) => ({
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),
-    tanstackStart(),
+    tanstackStart({
+      srcDirectory: "src",
+      router: {
+        routesDirectory: "app",
+      },
+    }),
     viteReact(),
     analyzer({ enabled: configEnv.mode === "analyze" }),
   ],
