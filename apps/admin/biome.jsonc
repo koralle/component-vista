@@ -11,8 +11,8 @@
       // TypeScript
       "src/**/*.{ts,tsx}",
       "next.config.ts",
-      "next-env.d.ts",
-      "open-next.config.ts",
+      "vite.config.ts",
+      "worker-configuration.d.ts",
 
       // JSON
       "package.json",
@@ -42,5 +42,38 @@
     "indentWidth": 2,
     "lineWidth": 100,
     "useEditorconfig": true
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["src/routeTree.gen.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "correctness": {
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["worker-configuration.d.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off"
+          },
+          "complexity": {
+            "noBannedTypes": "off",
+            "noStaticOnlyClass": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "off",
+            "noConfusingVoidType": "off"
+          }
+        }
+      }
+    }
+  ]
 }
