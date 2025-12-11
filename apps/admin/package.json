@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "1.17.0",
+    "@libsql/client": "^0.15.15",
     "@tanstack/react-devtools": "0.8.4",
     "@tanstack/react-router": "1.140.1",
     "@tanstack/react-router-devtools": "1.140.1",
@@ -25,6 +26,7 @@
     "@tanstack/react-start": "1.140.3",
     "@tanstack/router-plugin": "1.140.1",
     "better-auth": "^1.4.5",
+    "drizzle-orm": "^0.44.7",
     "lucide-react": "0.544.0",
     "react": "catalog:",
     "react-dom": "catalog:"
@@ -37,6 +39,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "5.0.4",
+    "drizzle-kit": "^0.31.7",
     "typescript": "catalog:",
     "vite": "7.1.11",
     "vite-bundle-analyzer": "^1.2.3",
