@@ -25,5 +25,6 @@ minimumReleaseAgeExclude:
 trustPolicy: no-downgrade
 
 trustPolicyExclude:
-  - undici-types@6.20.0
+  - '@noble/ciphers@2.0.1'
   - semver@6.3.1
+  - undici-types@6.20.0
