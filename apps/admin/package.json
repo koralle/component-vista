@@ -28,6 +28,8 @@
     "better-auth": "^1.4.5",
     "drizzle-orm": "^0.44.7",
     "hono": "^4.10.7",
+    "kysely": "^0.28.8",
+    "kysely-d1": "^0.4.0",
     "lucide-react": "0.544.0",
     "react": "catalog:",
     "react-dom": "catalog:",
