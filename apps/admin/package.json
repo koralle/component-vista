@@ -30,7 +30,8 @@
     "hono": "^4.10.7",
     "lucide-react": "0.544.0",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "valibot": "^1.2.0"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
