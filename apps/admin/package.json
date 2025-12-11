@@ -14,7 +14,11 @@
     "check": "biome check",
     "check:ci": "biome ci",
     "fix": "biome check --fix",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "auth:generate": "NODE_ENV=development dotenvx run -f .env.development -- pnpm dlx @better-auth/cli generate --config auth.ts --output drizzle/auth/schema.ts",
+    "auth-db:generate": "NODE_ENV=development dotenvx run -f .env.development -- drizzle-kit generate --config drizzle.config.auth.ts",
+    "auth-db:migrate": "NODE_ENV=development dotenvx run -f .env.development -- pnpm wrangler d1 migrations apply --local AUTH_DB",
+    "auth-db:migrate-production": "NODE_ENV=production dotenvx run -f .env.development -- pnpm drizzle-kit migrate -c drizzle.config.auth.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "1.17.0",
