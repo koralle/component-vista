@@ -1,5 +1,5 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
 export const app = new Hono()
   .basePath("/api")
-  .get('/', (c) => c.json({ message: "Hello, world!" }))
+  .get("/", (c) => c.json({ message: "Hello, world!" }));
