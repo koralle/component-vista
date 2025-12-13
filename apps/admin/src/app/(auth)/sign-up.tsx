@@ -1,3 +1,4 @@
+import { Button } from "@component-vista/admin-ui";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/sign-up")({ component: RouteComponent });
@@ -5,9 +6,5 @@ export const Route = createFileRoute("/(auth)/sign-up")({ component: RouteCompon
 function RouteComponent() {
   const onClick = async () => {};
 
-  return (
-    <button type="button" onClick={onClick}>
-      Sign Up
-    </button>
-  );
+  return <Button onClick={onClick}>Sign Up</Button>;
 }

@@ -1,3 +1,4 @@
+import { UIProvider } from "@component-vista/admin-ui";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -33,7 +34,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <UIProvider>{children}</UIProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",
