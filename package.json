@@ -6,8 +6,8 @@
   "keywords": [],
   "author": "koralle <koralle@koralle-mgmg.com>",
   "license": "MIT",
-  "packageManager": "pnpm@10.25.0",
+  "packageManager": "pnpm@10.24.0",
   "dependencies": {
-    "pnpm": "^10.25.0"
+    "pnpm": "^10.24.0"
   }
 }

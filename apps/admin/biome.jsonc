@@ -10,7 +10,8 @@
     "includes": [
       // TypeScript
       "src/**/*.{ts,tsx}",
-      "next.config.ts",
+      "drizzle/**/*.ts",
+      "auth.ts",
       "vite.config.ts",
       "worker-configuration.d.ts",
 
@@ -18,6 +19,7 @@
       "package.json",
       "tsconfig.json",
       "biome.jsonc",
+      "wrangler.jsonc",
       ".vscode/settings.json",
 
       // CSS

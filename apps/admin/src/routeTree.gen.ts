@@ -9,50 +9,135 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./app/__root";
-import { Route as IndexRouteImport } from "./app/index";
+import { Route as AuthenticatedRouteImport } from "./app/_authenticated";
+import { Route as AuthenticatedIndexRouteImport } from "./app/_authenticated/index";
+import { Route as authSignInRouteImport } from "./app/(auth)/sign-in";
+import { Route as authSignUpRouteImport } from "./app/(auth)/sign-up";
+import { Route as ApiSplatRouteImport } from "./app/api/$";
 
-const IndexRoute = IndexRouteImport.update({
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: "/_authenticated",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: "/",
   path: "/",
+  getParentRoute: () => AuthenticatedRoute,
+} as any);
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: "/api/$",
+  path: "/api/$",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const authSignUpRoute = authSignUpRouteImport.update({
+  id: "/(auth)/sign-up",
+  path: "/sign-up",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const authSignInRoute = authSignInRouteImport.update({
+  id: "/(auth)/sign-in",
+  path: "/sign-in",
   getParentRoute: () => rootRouteImport,
 } as any);
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
+  "/sign-in": typeof authSignInRoute;
+  "/sign-up": typeof authSignUpRoute;
+  "/api/$": typeof ApiSplatRoute;
+  "/": typeof AuthenticatedIndexRoute;
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
+  "/sign-in": typeof authSignInRoute;
+  "/sign-up": typeof authSignUpRoute;
+  "/api/$": typeof ApiSplatRoute;
+  "/": typeof AuthenticatedIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
+  "/_authenticated": typeof AuthenticatedRouteWithChildren;
+  "/(auth)/sign-in": typeof authSignInRoute;
+  "/(auth)/sign-up": typeof authSignUpRoute;
+  "/api/$": typeof ApiSplatRoute;
+  "/_authenticated/": typeof AuthenticatedIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/";
+  fullPaths: "/sign-in" | "/sign-up" | "/api/$" | "/";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/";
-  id: "__root__" | "/";
+  to: "/sign-in" | "/sign-up" | "/api/$" | "/";
+  id:
+    | "__root__"
+    | "/_authenticated"
+    | "/(auth)/sign-in"
+    | "/(auth)/sign-up"
+    | "/api/$"
+    | "/_authenticated/";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren;
+  authSignInRoute: typeof authSignInRoute;
+  authSignUpRoute: typeof authSignUpRoute;
+  ApiSplatRoute: typeof ApiSplatRoute;
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
+    "/_authenticated": {
+      id: "/_authenticated";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AuthenticatedRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/_authenticated/": {
+      id: "/_authenticated/";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport;
+      parentRoute: typeof AuthenticatedRoute;
+    };
+    "/api/$": {
+      id: "/api/$";
+      path: "/api/$";
+      fullPath: "/api/$";
+      preLoaderRoute: typeof ApiSplatRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/sign-up": {
+      id: "/(auth)/sign-up";
+      path: "/sign-up";
+      fullPath: "/sign-up";
+      preLoaderRoute: typeof authSignUpRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/sign-in": {
+      id: "/(auth)/sign-in";
+      path: "/sign-in";
+      fullPath: "/sign-in";
+      preLoaderRoute: typeof authSignInRouteImport;
       parentRoute: typeof rootRouteImport;
     };
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute;
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+};
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+);
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  authSignInRoute: authSignInRoute,
+  authSignUpRoute: authSignUpRoute,
+  ApiSplatRoute: ApiSplatRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
