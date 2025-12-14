@@ -1,7 +1,7 @@
-import { env } from "./src/env";
 import { defineConfig } from "drizzle-kit";
+import { env } from "./src/env";
 
-const isProduction = env.NODE_ENV === 'production'
+const isProduction = env.NODE_ENV === "production";
 
 const productionConfig = defineConfig({
   out: "./drizzle/auth/migrations",
@@ -13,12 +13,12 @@ const productionConfig = defineConfig({
     accountId: env.CLOUDFLARE_ACCOUNT_ID,
     token: env.CLOUDFLARE_D1_TOKEN,
   },
-})
+});
 
 const developmentConfig = defineConfig({
-  out: './drizzle/auth/migrations',
-  schema: './drizzle/auth/schema.ts',
-  dialect: 'sqlite',
-})
+  out: "./drizzle/auth/migrations",
+  schema: "./drizzle/auth/schema.ts",
+  dialect: "sqlite",
+});
 
-export default isProduction ? productionConfig : developmentConfig
+export default isProduction ? productionConfig : developmentConfig;

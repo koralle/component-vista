@@ -12,6 +12,7 @@
       "src/**/*.{ts,tsx}",
       "drizzle/**/*.ts",
       "auth.ts",
+      "drizzle.config.auth.ts",
       "vite.config.ts",
       "worker-configuration.d.ts",
 
