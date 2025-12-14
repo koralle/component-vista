@@ -9,5 +9,8 @@
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
     "pnpm": "^10.24.0"
+  },
+  "devDependencies": {
+    "lefthook": "^2.0.8"
   }
 }
