@@ -1,3 +1,4 @@
+import { Button } from "@component-vista/admin-ui";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(auth)/sign-in")({
@@ -9,9 +10,9 @@ function RouteComponent() {
 
   return (
     <div>
-      <button type="button" onClick={onClick}>
+      <Button type="button" onClick={onClick}>
         Sign In
-      </button>
+      </Button>
     </div>
   );
 }

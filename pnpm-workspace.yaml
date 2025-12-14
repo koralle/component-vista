@@ -1,6 +1,7 @@
 packages:
   - apps/*
   - packages/*
+  - packages/**
 
 catalog:
   '@biomejs/biome': 2.3.8
@@ -13,7 +14,6 @@ catalog:
   typescript: 5.9.3
 
 minimumReleaseAge: 10080
-
 minimumReleaseAgeExclude:
   - '@cloudflare/*'
   - '@tanstack/*'
@@ -23,7 +23,6 @@ minimumReleaseAgeExclude:
   - wrangler
 
 trustPolicy: no-downgrade
-
 trustPolicyExclude:
   - '@noble/ciphers@2.0.1'
   - chokidar@4.0.3
