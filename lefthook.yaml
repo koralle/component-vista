@@ -43,4 +43,4 @@ pre-commit:
         # JSON
         - tsconfig.json
       run: |
-        pnpm tsc
+        pnpm tsgo

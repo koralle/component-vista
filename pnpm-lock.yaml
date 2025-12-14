@@ -21,6 +21,9 @@ catalogs:
     '@types/react-dom':
       specifier: 19.2.3
       version: 19.2.3
+    '@typescript/native-preview':
+      specifier: 7.0.0-dev.20251206.1
+      version: 7.0.0-dev.20251206.1
     react:
       specifier: 19.2.1
       version: 19.2.1
@@ -115,6 +118,9 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.7)
+      '@typescript/native-preview':
+        specifier: 'catalog:'
+        version: 7.0.0-dev.20251206.1
       '@vitejs/plugin-react':
         specifier: 5.0.4
         version: 5.0.4(vite@7.1.11(@types/node@24.10.1)(tsx@4.21.0))
@@ -1687,6 +1693,45 @@ packages:
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
+
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-Lcm+cO/0d+iUNzpequh8v8rm7FKLLxnMv4cg59jkmeMNm6zLe8UHFJVKd4KSUeTBp6DrF1BBXkahIwecR21YXA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-RR3flM+2oRZP8HMh8mfUzOitUVBE3kbXBT1qqjQvU5GkFGKEU0DH2OZ35YV/ufVHBsRygXNbahw2heE08Jvk6A==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-/KXFbcTuW/2k+CspZjraCVLNBnoDGFARYYaydKj/OrZwcGb1HgCT8X52ICzf0lHnc7W0slKAIzEtq8vonyCrAw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-NMndfbNZiYALizEJ6+5RJl5vp7TMjVa0mW4sBFP/W+AECf1D0NZ1jffHBdwRgHr6inehw93cL78XcNWm+l89QA==}
+    cpu: [arm]
+    os: [linux]
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-qOKTazp43tE6imN/+y+s8MdtaJLnH98YILdr6V5pLVUxY1fiFnAX/LXv/zDd6ree6rEn102kLuaMGih7PNJqHw==}
+    cpu: [x64]
+    os: [linux]
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-6p2aDhxDr5lBGetFlZMNs3+W5lzUnAIR6BVnoPBc/oiNqWY929Sh2kA0poTx2piUvpi8xUs6k1MWjonZP5UbgQ==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-fsLQ21YABSaIrtuHLs+9fL2s3kc8bHF7UB4TatMwnFCzGvQJ7L1b5snfSjnSZeh3ETTeING8f9YHjiIf0h4jpA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@typescript/native-preview@7.0.0-dev.20251206.1':
+    resolution: {integrity: sha512-wog5hWVS+bYjFTpxtr+8qxqjhTKpAvlDCivvW592zctOcO+e9iLbBBLU3nDZdXW06rEA2zwjOqEPbsUcM/mcEw==}
+    hasBin: true
 
   '@vitejs/plugin-react@5.0.4':
     resolution: {integrity: sha512-La0KD0vGkVkSk6K+piWDKRUyg8Rl5iAIKRMH0vMJI0Eg47bq1eOxmoObAaQG37WMW9MSyk7Cs8EIWwJC1PtzKA==}
@@ -4056,6 +4101,37 @@ snapshots:
   '@types/ws@8.18.1':
     dependencies:
       '@types/node': 24.10.1
+
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20251206.1':
+    optional: true
+
+  '@typescript/native-preview@7.0.0-dev.20251206.1':
+    optionalDependencies:
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20251206.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20251206.1
 
   '@vitejs/plugin-react@5.0.4(vite@7.1.11(@types/node@24.10.1)(tsx@4.21.0))':
     dependencies:

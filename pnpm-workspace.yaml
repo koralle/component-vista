@@ -8,12 +8,12 @@ catalog:
   '@types/node': 24.10.1
   '@types/react': 19.2.7
   '@types/react-dom': 19.2.3
+  '@typescript/native-preview': 7.0.0-dev.20251206.1
   react: 19.2.1
   react-dom: 19.2.1
   typescript: 5.9.3
 
 minimumReleaseAge: 10080
-
 minimumReleaseAgeExclude:
   - '@cloudflare/*'
   - '@tanstack/*'
@@ -23,7 +23,6 @@ minimumReleaseAgeExclude:
   - wrangler
 
 trustPolicy: no-downgrade
-
 trustPolicyExclude:
   - '@noble/ciphers@2.0.1'
   - chokidar@4.0.3
