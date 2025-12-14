@@ -1,0 +1,46 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: Fix with Biome (Admin)
+      root: apps/admin
+      glob:
+        # TypeScript
+        - '**/*.ts'
+        - '**/*.tsx'
+        - 'drizzle/**/*.ts'
+        - auth.ts
+        - drizzle.config.auth.ts
+        - vite.config.ts
+        - worker-configuration.d.ts
+
+        # JSON
+        - package.json
+        - tsconfig.json
+        - biome.jsonc
+        - wrangler.jsonc
+        - '.vscode/settings.json'
+
+        # CSS
+        - 'src/**/*.css'
+      run: |
+        pnpm biome check \
+          {staged_files} \
+          --fix
+      stage_fixed: true
+
+    - name: Typecheck (Admin)
+      root: apps/admin
+      glob:
+        # TypeScript
+        - '**/*.ts'
+        - '**/*.tsx'
+        - 'drizzle/**/*.ts'
+        - auth.ts
+        - drizzle.config.auth.ts
+        - vite.config.ts
+        - worker-configuration.d.ts
+
+        # JSON
+        - tsconfig.json
+      run: |
+        pnpm tsc
