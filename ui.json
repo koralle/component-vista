@@ -4,7 +4,7 @@
 	"hooks": { "overwrite": true },
 	"providers": { "overwrite": true },
 	"monorepo": true,
-	"path": "./packages/admin-ui",
+	"path": "./packages/ui",
 	"format": { "enabled": false },
 	"lint": { "enabled": false }
 }

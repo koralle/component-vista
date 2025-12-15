@@ -1,5 +1,5 @@
 {
-  "name": "component-vista",
+  "name": "@component-vista/monorepo",
   "version": "0.1.0",
   "description": "Provides a bird's-eye view of component libraries across various Japanese corporate design systems.",
   "scripts": {},

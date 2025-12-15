@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "1.17.0",
-    "@component-vista/admin-ui": "workspace:*",
+    "@component-vista/ui": "workspace:*",
     "@libsql/client": "^0.15.15",
     "@tanstack/react-devtools": "0.8.4",
     "@tanstack/react-router": "1.140.1",

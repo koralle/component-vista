@@ -51,9 +51,9 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: 1.17.0
         version: 1.17.0(vite@7.1.11(@types/node@24.10.1)(tsx@4.21.0))(workerd@1.20251202.0)(wrangler@4.53.0)
-      '@component-vista/admin-ui':
+      '@component-vista/ui':
         specifier: workspace:*
-        version: link:../../packages/admin-ui
+        version: link:../../packages/ui
       '@libsql/client':
         specifier: ^0.15.15
         version: 0.15.15
@@ -149,7 +149,7 @@ importers:
         specifier: 4.53.0
         version: 4.53.0
 
-  packages/admin-ui:
+  packages/ui:
     dependencies:
       '@yamada-ui/react':
         specifier: ^2
