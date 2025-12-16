@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {},
   "dependencies": {
-    "@yamada-ui/react": "^2",
+    "@yamada-ui/react": "2.0.5",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
