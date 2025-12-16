@@ -38,6 +38,7 @@
     "lucide-react": "0.544.0",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-scan": "catalog:",
     "valibot": "^1.2.0"
   },
   "devDependencies": {
