@@ -23,7 +23,7 @@ jobs:
         working-directory: ./apps/admin
         shell: bash
         run: |
-          pnpm run check:ci
+          bun run check:ci
 
   typecheck:
     runs-on: ubuntu-24.04
@@ -39,4 +39,4 @@ jobs:
         working-directory: ./apps/admin
         shell: bash
         run: |
-          pnpm run typecheck
+          bun run typecheck

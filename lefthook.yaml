@@ -23,7 +23,7 @@ pre-commit:
         # CSS
         - 'src/**/*.css'
       run: |
-        pnpm biome check \
+        bun biome check \
           {staged_files} \
           --fix
       stage_fixed: true
@@ -43,4 +43,4 @@ pre-commit:
         # JSON
         - tsconfig.json
       run: |
-        pnpm tsgo
+        bun tsgo
