@@ -53,7 +53,7 @@
       "name": "@component-vista/ui",
       "version": "1.0.0",
       "dependencies": {
-        "@yamada-ui/react": "^2",
+        "@yamada-ui/react": "2.0.5",
         "react": "catalog:",
         "react-dom": "catalog:",
       },
