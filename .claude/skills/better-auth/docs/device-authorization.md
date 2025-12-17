@@ -1,0 +1,698 @@
+---
+title: "Device Authorization | Better Auth"
+source_url: "https://www.better-auth.com/docs/plugins/device-authorization"
+fetched_at: "2025-12-17T17:03:49.997163+00:00"
+---
+
+
+
+Docs
+
+get started, concepts, and plugins
+
+Search documentation...
+
+Get Started
+
+Loading...
+
+Loading...
+
+Loading...
+
+Loading...
+
+Concepts
+
+Authentication
+
+Databases
+
+Integrations
+
+Plugins
+
+Guides
+
+Reference
+
+# Device Authorization
+
+Copy MarkdownOpen in
+
+`RFC 8628` `CLI` `Smart TV` `IoT`
+
+The Device Authorization plugin implements the OAuth 2.0 Device Authorization Grant ([RFC 8628](https://datatracker.ietf.org/doc/html/rfc8628)), enabling authentication for devices with limited input capabilities such as smart TVs, CLI applications, IoT devices, and gaming consoles.
+
+## [Try It Out](https://www.better-auth.com/docs/plugins/device-authorization.html#try-it-out)
+
+You can test the device authorization flow right now using the Better Auth CLI:
+
+```
+npx @better-auth/cli login
+```
+
+This will demonstrate the complete device authorization flow by:
+
+1. Requesting a device code from the Better Auth demo server
+2. Displaying a user code for you to enter
+3. Opening your browser to the verification page
+4. Polling for authorization completion
+
+The CLI login command is a demo feature that connects to the Better Auth demo server to showcase the device authorization flow in action.
+
+## [Installation](https://www.better-auth.com/docs/plugins/device-authorization.html#installation)
+
+### [Add the plugin to your auth config](https://www.better-auth.com/docs/plugins/device-authorization.html#add-the-plugin-to-your-auth-config)
+
+Add the device authorization plugin to your server configuration.
+
+auth.ts
+
+```
+import { betterAuth } from "better-auth";
+import { deviceAuthorization } from "better-auth/plugins";
+
+export const auth = betterAuth({
+  // ... other config
+  plugins: [
+    deviceAuthorization({
+      verificationUri: "/device",
+    }),
+  ],
+});
+```
+
+### [Migrate the database](https://www.better-auth.com/docs/plugins/device-authorization.html#migrate-the-database)
+
+Run the migration or generate the schema to add the necessary tables to the database.
+
+migrategenerate
+
+npmpnpmyarnbun
+
+```
+npx @better-auth/cli migrate
+```
+
+npmpnpmyarnbun
+
+```
+npx @better-auth/cli generate
+```
+
+See the [Schema](https://www.better-auth.com/docs/plugins/device-authorization.html#schema) section to add the fields manually.
+
+### [Add the client plugin](https://www.better-auth.com/docs/plugins/device-authorization.html#add-the-client-plugin)
+
+Add the device authorization plugin to your client.
+
+auth-client.ts
+
+```
+import { createAuthClient } from "better-auth/client";
+import { deviceAuthorizationClient } from "better-auth/client/plugins";
+
+export const authClient = createAuthClient({
+  plugins: [
+    deviceAuthorizationClient(),
+  ],
+});
+```
+
+## [How It Works](https://www.better-auth.com/docs/plugins/device-authorization.html#how-it-works)
+
+The device flow follows these steps:
+
+1. **Device requests codes**: The device requests a device code and user code from the authorization server
+2. **User authorizes**: The user visits a verification URL and enters the user code
+3. **Device polls for token**: The device polls the server until the user completes authorization
+4. **Access granted**: Once authorized, the device receives an access token
+
+## [Basic Usage](https://www.better-auth.com/docs/plugins/device-authorization.html#basic-usage)
+
+### [Requesting Device Authorization](https://www.better-auth.com/docs/plugins/device-authorization.html#requesting-device-authorization)
+
+To initiate device authorization, call `device.code` with the client ID:
+
+ClientServer
+
+POST
+
+/device/code
+
+```
+const { data, error } = await authClient.device.code({    client_id, // required    scope,});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `client_id` | The OAuth client identifier | `string;` |
+| `scope?` | Space-separated list of requested scopes (optional) | `string;` |
+
+POST
+
+/device/code
+
+```
+const data = await auth.api.deviceCode({    body: {        client_id, // required        scope,    },});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `client_id` | The OAuth client identifier | `string;` |
+| `scope?` | Space-separated list of requested scopes (optional) | `string;` |
+
+Example usage:
+
+```
+const { data } = await authClient.device.code({
+  client_id: "your-client-id",
+  scope: "openid profile email",
+});
+
+if (data) {
+  console.log(`User code: ${data.user_code}`);
+  console.log(`Verification URL: ${data.verification_uri}`);
+  console.log(`Complete verification URL: ${data.verification_uri_complete}`);
+}
+```
+
+### [Polling for Token](https://www.better-auth.com/docs/plugins/device-authorization.html#polling-for-token)
+
+After displaying the user code, poll for the access token:
+
+ClientServer
+
+POST
+
+/device/token
+
+```
+const { data, error } = await authClient.device.token({    grant_type, // required    device_code, // required    client_id, // required});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `grant_type` | Must be "urn:ietf:params:oauth:grant-type:device\_code" | `string;` |
+| `device_code` | The device code from the initial request | `string;` |
+| `client_id` | The OAuth client identifier | `string;` |
+
+POST
+
+/device/token
+
+```
+const data = await auth.api.deviceToken({    body: {        grant_type, // required        device_code, // required        client_id, // required    },});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `grant_type` | Must be "urn:ietf:params:oauth:grant-type:device\_code" | `string;` |
+| `device_code` | The device code from the initial request | `string;` |
+| `client_id` | The OAuth client identifier | `string;` |
+
+Example polling implementation:
+
+```
+let pollingInterval = 5; // Start with 5 seconds
+const pollForToken = async () => {
+  const { data, error } = await authClient.device.token({
+    grant_type: "urn:ietf:params:oauth:grant-type:device_code",
+    device_code,
+    client_id: yourClientId,
+    fetchOptions: {
+      headers: {
+        "user-agent": `My CLI`,
+      },
+    },
+  });
+
+  if (data?.access_token) {
+    console.log("Authorization successful!");
+  } else if (error) {
+    switch (error.error) {
+      case "authorization_pending":
+        // Continue polling
+        break;
+      case "slow_down":
+        pollingInterval += 5;
+        break;
+      case "access_denied":
+        console.error("Access was denied by the user");
+        return;
+      case "expired_token":
+        console.error("The device code has expired. Please try again.");
+        return;
+      default:
+        console.error(`Error: ${error.error_description}`);
+        return;
+    }
+    setTimeout(pollForToken, pollingInterval * 1000);
+  }
+};
+
+pollForToken();
+```
+
+### [User Authorization Flow](https://www.better-auth.com/docs/plugins/device-authorization.html#user-authorization-flow)
+
+The user authorization flow requires two steps:
+
+1. **Code Verification**: Check if the entered user code is valid
+2. **Authorization**: User must be authenticated to approve/deny the device
+
+Users must be authenticated before they can approve or deny device authorization requests. If not authenticated, redirect them to the login page with a return URL.
+
+Create a page where users can enter their code:
+
+app/device/page.tsx
+
+```
+export default function DeviceAuthorizationPage() {
+  const [userCode, setUserCode] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Format the code: remove dashes and convert to uppercase
+      const formattedCode = userCode.trim().replace(/-/g, "").toUpperCase();
+
+      // Check if the code is valid using GET /device endpoint
+      const response = await authClient.device({
+        query: { user_code: formattedCode },
+      });
+
+      if (response.data) {
+        // Redirect to approval page
+        window.location.href = `/device/approve?user_code=${formattedCode}`;
+      }
+    } catch (err) {
+      setError("Invalid or expired code");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={userCode}
+        onChange={(e) => setUserCode(e.target.value)}
+        placeholder="Enter device code (e.g., ABCD-1234)"
+        maxLength={12}
+      />
+      <button type="submit">Continue</button>
+      {error && <p>{error}</p>}
+    </form>
+  );
+}
+```
+
+### [Approving or Denying Device](https://www.better-auth.com/docs/plugins/device-authorization.html#approving-or-denying-device)
+
+Users must be authenticated to approve or deny device authorization requests:
+
+#### [Approve Device](https://www.better-auth.com/docs/plugins/device-authorization.html#approve-device)
+
+ClientServer
+
+POST
+
+/device/approve
+
+```
+const { data, error } = await authClient.device.approve({    userCode, // required});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `userCode` | The user code to approve | `string;` |
+
+POST
+
+/device/approve
+
+```
+const data = await auth.api.deviceApprove({    body: {        userCode, // required    },    // This endpoint requires session cookies.    headers: await headers(),});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `userCode` | The user code to approve | `string;` |
+
+#### [Deny Device](https://www.better-auth.com/docs/plugins/device-authorization.html#deny-device)
+
+ClientServer
+
+POST
+
+/device/deny
+
+```
+const { data, error } = await authClient.device.deny({    userCode, // required});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `userCode` | The user code to deny | `string;` |
+
+POST
+
+/device/deny
+
+```
+const data = await auth.api.deviceDeny({    body: {        userCode, // required    },    // This endpoint requires session cookies.    headers: await headers(),});
+```
+
+| Prop | Description | Type |
+| --- | --- | --- |
+| `userCode` | The user code to deny | `string;` |
+
+#### [Example Approval Page](https://www.better-auth.com/docs/plugins/device-authorization.html#example-approval-page)
+
+app/device/approve/page.tsx
+
+```
+export default function DeviceApprovalPage() {
+  const { user } = useAuth(); // Must be authenticated
+  const searchParams = useSearchParams();
+  const userCode = searchParams.get("userCode");
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleApprove = async () => {
+    setIsProcessing(true);
+    try {
+      await authClient.device.approve({
+        userCode: userCode,
+      });
+      // Show success message
+      alert("Device approved successfully!");
+      window.location.href = "/";
+    } catch (error) {
+      alert("Failed to approve device");
+    }
+    setIsProcessing(false);
+  };
+
+  const handleDeny = async () => {
+    setIsProcessing(true);
+    try {
+      await authClient.device.deny({
+        userCode: userCode,
+      });
+      alert("Device denied");
+      window.location.href = "/";
+    } catch (error) {
+      alert("Failed to deny device");
+    }
+    setIsProcessing(false);
+  };
+
+  if (!user) {
+    // Redirect to login if not authenticated
+    window.location.href = `/login?redirect=/device/approve?user_code=${userCode}`;
+    return null;
+  }
+
+  return (
+    <div>
+      <h2>Device Authorization Request</h2>
+      <p>A device is requesting access to your account.</p>
+      <p>Code: {userCode}</p>
+
+      <button onClick={handleApprove} disabled={isProcessing}>
+        Approve
+      </button>
+      <button onClick={handleDeny} disabled={isProcessing}>
+        Deny
+      </button>
+    </div>
+  );
+}
+```
+
+## [Advanced Configuration](https://www.better-auth.com/docs/plugins/device-authorization.html#advanced-configuration)
+
+### [Client Validation](https://www.better-auth.com/docs/plugins/device-authorization.html#client-validation)
+
+You can validate client IDs to ensure only authorized applications can use the device flow:
+
+```
+deviceAuthorization({
+  validateClient: async (clientId) => {
+    // Check if client is authorized
+    const client = await db.oauth_clients.findOne({ id: clientId });
+    return client && client.allowDeviceFlow;
+  },
+
+  onDeviceAuthRequest: async (clientId, scope) => {
+    // Log device authorization requests
+    await logDeviceAuthRequest(clientId, scope);
+  },
+})
+```
+
+### [Custom Code Generation](https://www.better-auth.com/docs/plugins/device-authorization.html#custom-code-generation)
+
+Customize how device and user codes are generated:
+
+```
+deviceAuthorization({
+  generateDeviceCode: async () => {
+    // Custom device code generation
+    return crypto.randomBytes(32).toString("hex");
+  },
+
+  generateUserCode: async () => {
+    // Custom user code generation
+    // Default uses: ABCDEFGHJKLMNPQRSTUVWXYZ23456789
+    // (excludes 0, O, 1, I to avoid confusion)
+    const charset = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for (let i = 0; i < 8; i++) {
+      code += charset[Math.floor(Math.random() * charset.length)];
+    }
+    return code;
+  },
+})
+```
+
+## [Error Handling](https://www.better-auth.com/docs/plugins/device-authorization.html#error-handling)
+
+The device flow defines specific error codes:
+
+| Error Code | Description |
+| --- | --- |
+| `authorization_pending` | User hasn't approved yet (continue polling) |
+| `slow_down` | Polling too frequently (increase interval) |
+| `expired_token` | Device code has expired |
+| `access_denied` | User denied the authorization |
+| `invalid_grant` | Invalid device code or client ID |
+
+## [Example: CLI Application](https://www.better-auth.com/docs/plugins/device-authorization.html#example-cli-application)
+
+Here's a complete example for a CLI application based on the actual demo:
+
+cli-auth.ts
+
+```
+import { createAuthClient } from "better-auth/client";
+import { deviceAuthorizationClient } from "better-auth/client/plugins";
+import open from "open";
+
+const authClient = createAuthClient({
+  baseURL: "http://localhost:3000",
+  plugins: [deviceAuthorizationClient()],
+});
+
+async function authenticateCLI() {
+  console.log("🔐 Better Auth Device Authorization Demo");
+  console.log("⏳ Requesting device authorization...");
+
+  try {
+    // Request device code
+    const { data, error } = await authClient.device.code({
+      client_id: "demo-cli",
+      scope: "openid profile email",
+    });
+
+    if (error || !data) {
+      console.error("❌ Error:", error?.error_description);
+      process.exit(1);
+    }
+
+    const {
+      device_code,
+      user_code,
+      verification_uri,
+      verification_uri_complete,
+      interval = 5,
+    } = data;
+
+    console.log("\n📱 Device Authorization in Progress");
+    console.log(`Please visit: ${verification_uri}`);
+    console.log(`Enter code: ${user_code}\n`);
+
+    // Open browser to verification page
+    const urlToOpen = verification_uri_complete || verification_uri;
+    console.log("🌐 Opening browser...");
+    await open(urlToOpen);
+
+    console.log(`⏳ Waiting for authorization... (polling every ${interval}s)`);
+
+    // Poll for token
+    await pollForToken(device_code, interval);
+  } catch (err) {
+    console.error("❌ Error:", err.message);
+    process.exit(1);
+  }
+}
+
+async function pollForToken(deviceCode: string, interval: number) {
+  let pollingInterval = interval;
+
+  return new Promise<void>((resolve) => {
+    const poll = async () => {
+      try {
+        const { data, error } = await authClient.device.token({
+          grant_type: "urn:ietf:params:oauth:grant-type:device_code",
+          device_code: deviceCode,
+          client_id: "demo-cli",
+        });
+
+        if (data?.access_token) {
+          console.log("\nAuthorization Successful!");
+          console.log("Access token received!");
+
+          // Get user session
+          const { data: session } = await authClient.getSession({
+            fetchOptions: {
+              headers: {
+                Authorization: `Bearer ${data.access_token}`,
+              },
+            },
+          });
+
+          console.log(`Hello, ${session?.user?.name || "User"}!`);
+          resolve();
+          process.exit(0);
+        } else if (error) {
+          switch (error.error) {
+            case "authorization_pending":
+              // Continue polling silently
+              break;
+            case "slow_down":
+              pollingInterval += 5;
+              console.log(`⚠️  Slowing down polling to ${pollingInterval}s`);
+              break;
+            case "access_denied":
+              console.error("❌ Access was denied by the user");
+              process.exit(1);
+              break;
+            case "expired_token":
+              console.error("❌ The device code has expired. Please try again.");
+              process.exit(1);
+              break;
+            default:
+              console.error("❌ Error:", error.error_description);
+              process.exit(1);
+          }
+        }
+      } catch (err) {
+        console.error("❌ Network error:", err.message);
+        process.exit(1);
+      }
+
+      // Schedule next poll
+      setTimeout(poll, pollingInterval * 1000);
+    };
+
+    // Start polling
+    setTimeout(poll, pollingInterval * 1000);
+  });
+}
+
+// Run the authentication flow
+authenticateCLI().catch((err) => {
+  console.error("❌ Fatal error:", err);
+  process.exit(1);
+});
+```
+
+## [Security Considerations](https://www.better-auth.com/docs/plugins/device-authorization.html#security-considerations)
+
+1. **Rate Limiting**: The plugin enforces polling intervals to prevent abuse
+2. **Code Expiration**: Device and user codes expire after the configured time (default: 30 minutes)
+3. **Client Validation**: Always validate client IDs in production to prevent unauthorized access
+4. **HTTPS Only**: Always use HTTPS in production for device authorization
+5. **User Code Format**: User codes use a limited character set (excluding similar-looking characters like 0/O, 1/I) to reduce typing errors
+6. **Authentication Required**: Users must be authenticated before they can approve or deny device requests
+
+## [Options](https://www.better-auth.com/docs/plugins/device-authorization.html#options)
+
+### [Server](https://www.better-auth.com/docs/plugins/device-authorization.html#server)
+
+**verificationUri**: The URL of the verification page where users can enter their device code. Match this to the route of your verification page. Returned as `verification_uri` in the response. Can be an absolute URL (e.g., `https://example.com/device`) or relative path (e.g., `/device`). Default: `/device`.
+
+**expiresIn**: The expiration time for device codes. Default: `"30m"` (30 minutes).
+
+**interval**: The minimum polling interval. Default: `"5s"` (5 seconds).
+
+**userCodeLength**: The length of the user code. Default: `8`.
+
+**deviceCodeLength**: The length of the device code. Default: `40`.
+
+**generateDeviceCode**: Custom function to generate device codes. Returns a string or `Promise<string>`.
+
+**generateUserCode**: Custom function to generate user codes. Returns a string or `Promise<string>`.
+
+**validateClient**: Function to validate client IDs. Takes a clientId and returns boolean or `Promise<boolean>`.
+
+**onDeviceAuthRequest**: Hook called when device authorization is requested. Takes clientId and optional scope.
+
+### [Client](https://www.better-auth.com/docs/plugins/device-authorization.html#client)
+
+No client-specific configuration options. The plugin adds the following methods:
+
+* **device()**: Verify user code validity
+* **device.code()**: Request device and user codes
+* **device.token()**: Poll for access token
+* **device.approve()**: Approve device (requires authentication)
+* **device.deny()**: Deny device (requires authentication)
+
+## [Schema](https://www.better-auth.com/docs/plugins/device-authorization.html#schema)
+
+The plugin requires a new table to store device authorization data.
+
+Table Name: `deviceCode`
+
+| Field Name | Type | Key | Description |
+| --- | --- | --- | --- |
+| id | string | PK | Unique identifier for the device authorization request |
+| deviceCode | string | - | The device verification code |
+| userCode | string | - | The user-friendly code for verification |
+| userId | string | FK? | The ID of the user who approved/denied |
+| clientId | string | ? | The OAuth client identifier |
+| scope | string | ? | Requested OAuth scopes |
+| status | string | - | Current status: pending, approved, or denied |
+| expiresAt | Date | - | When the device code expires |
+| lastPolledAt | Date | ? | Last time the device polled for status |
+| pollingInterval | number | ? | Minimum seconds between polls |
+| createdAt | Date | - | When the request was created |
+| updatedAt | Date | - | When the request was last updated |
+
+[Edit on GitHub](https://github.com/better-auth/better-auth/blob/canary/docs/content/docs/plugins/device-authorization.mdx)
+
+[Previous Page
+
+Bearer](https://www.better-auth.com/docs/plugins/bearer.html)[Next Page
+
+Captcha](https://www.better-auth.com/docs/plugins/captcha.html)
+
+### On this page
+
+[Try It Out](https://www.better-auth.com/docs/plugins/device-authorization.html#try-it-out)[Installation](https://www.better-auth.com/docs/plugins/device-authorization.html#installation)[Add the plugin to your auth config](https://www.better-auth.com/docs/plugins/device-authorization.html#add-the-plugin-to-your-auth-config)[Migrate the database](https://www.better-auth.com/docs/plugins/device-authorization.html#migrate-the-database)[Add the client plugin](https://www.better-auth.com/docs/plugins/device-authorization.html#add-the-client-plugin)[How It Works](https://www.better-auth.com/docs/plugins/device-authorization.html#how-it-works)[Basic Usage](https://www.better-auth.com/docs/plugins/device-authorization.html#basic-usage)[Requesting Device Authorization](https://www.better-auth.com/docs/plugins/device-authorization.html#requesting-device-authorization)[Polling for Token](https://www.better-auth.com/docs/plugins/device-authorization.html#polling-for-token)[User Authorization Flow](https://www.better-auth.com/docs/plugins/device-authorization.html#user-authorization-flow)[Approving or Denying Device](https://www.better-auth.com/docs/plugins/device-authorization.html#approving-or-denying-device)[Approve Device](https://www.better-auth.com/docs/plugins/device-authorization.html#approve-device)[Deny Device](https://www.better-auth.com/docs/plugins/device-authorization.html#deny-device)[Example Approval Page](https://www.better-auth.com/docs/plugins/device-authorization.html#example-approval-page)[Advanced Configuration](https://www.better-auth.com/docs/plugins/device-authorization.html#advanced-configuration)[Client Validation](https://www.better-auth.com/docs/plugins/device-authorization.html#client-validation)[Custom Code Generation](https://www.better-auth.com/docs/plugins/device-authorization.html#custom-code-generation)[Error Handling](https://www.better-auth.com/docs/plugins/device-authorization.html#error-handling)[Example: CLI Application](https://www.better-auth.com/docs/plugins/device-authorization.html#example-cli-application)[Security Considerations](https://www.better-auth.com/docs/plugins/device-authorization.html#security-considerations)[Options](https://www.better-auth.com/docs/plugins/device-authorization.html#options)[Server](https://www.better-auth.com/docs/plugins/device-authorization.html#server)[Client](https://www.better-auth.com/docs/plugins/device-authorization.html#client)[Schema](https://www.better-auth.com/docs/plugins/device-authorization.html#schema)
+
+Ask AI
