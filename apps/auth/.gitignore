@@ -24,3 +24,6 @@ logs/
 
 # misc
 .DS_Store
+
+# TypeScript
+*.tsbuildinfo

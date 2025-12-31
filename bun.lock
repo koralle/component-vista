@@ -55,6 +55,7 @@
         "hono": "4.11.1",
       },
       "devDependencies": {
+        "@typescript/native-preview": "catalog:",
         "wrangler": "catalog:",
       },
     },
