@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
+    "@dotenvx/dotenvx": "catalog:",
     "@typescript/native-preview": "catalog:",
     "wrangler": "catalog:"
   }
