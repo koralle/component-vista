@@ -1,5 +1,5 @@
 {
-  "name": "@component-vista/auth",
+  "name": "@component-vista/backend",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
