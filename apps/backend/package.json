@@ -1,0 +1,22 @@
+{
+  "name": "@component-vista/backend",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "check": "biome check",
+    "check:ci": "biome ci",
+    "fix": "biome check --fix",
+    "typecheck": "tsgo"
+  },
+  "dependencies": {
+    "hono": "4.11.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@dotenvx/dotenvx": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "wrangler": "catalog:"
+  }
+}
