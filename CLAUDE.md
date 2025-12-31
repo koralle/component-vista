@@ -1,38 +1,45 @@
-# Component Vista
+# AI-DLC and Spec-Driven Development
 
-## プロジェクトの目的
+Kiro-style Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 
-このプロジェクトでは、日本の企業・組織等が後悔しているデザインシステムを俯瞰できるWebサイトを開発します。
-似たようなプロジェクトに[The Component Gallery](https://component.gallery)が存在する。
-しかし、当該プロジェクトは海外のデザインシステムのみを対象としているため、本プロジェクトでは日本のデザインシステムを主に取り扱うことで差別化を図る。
+## Project Context
 
-### ターゲット
+### Paths
+- Steering: `.kiro/steering/`
+- Specs: `.kiro/specs/`
 
-* フロントエンドエンジニア
-* デザイナー
-* プロダクトマネージャー
+### Steering vs Specification
 
-## プロジェクトで開発する対象
+**Steering** (`.kiro/steering/`) - Guide AI with project-wide rules and context
+**Specs** (`.kiro/specs/`) - Formalize development process for individual features
 
-* 公開用のWebサイト
-* 管理画面
+### Active Specifications
+- Check `.kiro/specs/` for active specifications
+- Use `/kiro:spec-status [feature-name]` to check progress
 
-### 公開用のWebサイト
+## Development Guidelines
+- Think in English, generate responses in Japanese. All Markdown content written to project files (e.g., requirements.md, design.md, tasks.md, research.md, validation reports) MUST be written in the target language configured for this specification (see spec.json.language).
 
-公開用のWebサイトは、先述のターゲット向けにWeb上で公開するWebサイトのことです。
+## Minimal Workflow
+- Phase 0 (optional): `/kiro:steering`, `/kiro:steering-custom`
+- Phase 1 (Specification):
+  - `/kiro:spec-init "description"`
+  - `/kiro:spec-requirements {feature}`
+  - `/kiro:validate-gap {feature}` (optional: for existing codebase)
+  - `/kiro:spec-design {feature} [-y]`
+  - `/kiro:validate-design {feature}` (optional: design review)
+  - `/kiro:spec-tasks {feature} [-y]`
+- Phase 2 (Implementation): `/kiro:spec-impl {feature} [tasks]`
+  - `/kiro:validate-impl {feature}` (optional: after implementation)
+- Progress check: `/kiro:spec-status {feature}` (use anytime)
 
-### 管理画面
+## Development Rules
+- 3-phase approval workflow: Requirements → Design → Tasks → Implementation
+- Human review required each phase; use `-y` only for intentional fast-track
+- Keep steering current and verify alignment with `/kiro:spec-status`
+- Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
 
-管理画面は、このComponent VistaというWebサイトの管理者がデザインシステムの情報を登録・更新・削除などを実施するために使用します。
-
-## 技術要素
-
-### 管理画面
-
-#### フレームワーク
-
-Next.js (App Router)
-
-#### ホスティング
-
-Cloudflare Workers
+## Steering Configuration
+- Load entire `.kiro/steering/` as project memory
+- Default files: `product.md`, `tech.md`, `structure.md`
+- Custom files are supported (managed via `/kiro:steering-custom`)
