@@ -1,85 +1,10 @@
 pre-commit:
   parallel: true
   jobs:
-    - name: Admin
-      root: apps/admin
-      group:
-        piped: true
-        jobs:
-          - name: Fix with Biome (Admin)
-            root: apps/admin
-            glob:
-              # TypeScript
-              - '**/*.ts'
-              - '**/*.tsx'
-              - 'drizzle/**/*.ts'
-              - auth.ts
-              - drizzle.config.auth.ts
-              - vite.config.ts
-              - worker-configuration.d.ts
+    - name: Format Nix
+      glob:
+        - flake.nix
+      run: |
+        nix fmt {staged_files}
+      stage_fixed: true
 
-              # JSON
-              - package.json
-              - tsconfig.json
-              - biome.jsonc
-              - wrangler.jsonc
-              - '.vscode/settings.json'
-
-              # CSS
-              - 'src/**/*.css'
-            run: |
-              bun biome check \
-                {staged_files} \
-                --fix
-            stage_fixed: true
-
-          - name: Typecheck (Admin)
-            root: apps/admin
-            glob:
-              # TypeScript
-              - '**/*.ts'
-              - '**/*.tsx'
-              - 'drizzle/**/*.ts'
-              - auth.ts
-              - drizzle.config.auth.ts
-              - vite.config.ts
-              - worker-configuration.d.ts
-
-              # JSON
-              - tsconfig.json
-            run: |
-              bun tsgo
-
-    - name: Backend
-      root: apps/backend
-      group:
-        piped: true
-        jobs:
-          - name: Fix with Biome (Backend)
-            glob:
-              # TypeScript
-              - '**/*.ts'
-              - worker-configuration.d.ts
-
-              # JSON
-              - package.json
-              - tsconfig.json
-              - biome.jsonc
-              - wrangler.jsonc
-              - '.vscode/settings.json'
-            run: |
-              bun biome check \
-                {staged_files} \
-                --fix
-            stage_fixed: true
-
-          - name: Typecheck (Backend)
-            glob:
-              # TypeScript
-              - '**/*.ts'
-              - worker-configuration.d.ts
-
-              # JSON
-              - tsconfig.json
-            run: |
-              bun tsgo

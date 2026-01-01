@@ -3,11 +3,4 @@
 minimumReleaseAge = 604800
 
 # These packages will bypass the 7-day minimum age requirement
-minimumReleaseAgeExclude = [
-  "@cloudflare/*",
-  "@tanstack/*",
-  "miniflare",
-  "react",
-  "react-dom",
-  "wrangler"
-]
+minimumReleaseAgeExclude = []
